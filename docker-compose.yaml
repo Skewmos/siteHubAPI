@@ -1,0 +1,31 @@
+version: "3"
+
+networks:
+  site_hub:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    depends_on:
+      - postgres_db
+    networks:
+      - site_hub
+
+  postgres_db:
+    image: "postgres:11"
+    container_name: "postgres_db"
+    ports:
+      - "54321:5432"
+    environment:
+      - POSTGRES_PASSWORD="HByGbq4XnIIN"
+    networks:
+      - site_hub
